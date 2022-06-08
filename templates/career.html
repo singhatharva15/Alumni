@@ -1,0 +1,126 @@
+{% extends 'blank.html' %}
+{%load static%}
+{% load crispy_forms_tags %}
+{% block title %}Career{% endblock title %}
+{% block style %}
+<style>
+  .form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8;
+  }
+
+  .profile-button {
+    background: #BA68C8;
+    box-shadow: none;
+    border: none;
+  }
+
+  .profile-button:hover {
+    background: #682773;
+  }
+
+  .profile-button:focus {
+    background: #682773;
+    box-shadow: none;
+  }
+
+  .profile-button:active {
+    background: #682773;
+    box-shadow: none;
+  }
+
+  .back:hover {
+    color: #682773;
+    cursor: pointer;
+  }
+
+  .labels {
+    font-size: 11px;
+  }
+
+  .add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8;
+  }
+
+  .disabled {
+    pointer-events: none;
+    background-color: #eaecf4;
+  }
+</style>
+{% endblock style %}
+{%block body %}
+<div class="container">
+
+  <!-- Page Heading -->
+  <h1 class="h3 mt-5 mb-4 text-gray-800">Career</h1>
+
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  <div class="row">
+
+    <div class="col-md-7 col-snn-12 border-right">
+      <h6><b>Add Experience</b></h6>
+      {% crispy form %}
+    </div>
+
+    <div class="col-md-5 col-sm-12 mt-4 mt-md-0">
+      <div class="d-flex justify-content-between align-items-center experience">
+        <span>Your Experience</span>
+      </div>
+
+      {% for i in object_list %}
+      <div class="d-flex flex-row mt-3 exp-container">
+        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor"
+          class="bi bi-briefcase-fill p-2" viewBox="0 0 16 16">
+          <path
+            d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1h-3zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5z" />
+          <path
+            d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85v5.65z" />
+        </svg>
+        <div class="work-experience ml-1">
+          <span class="font-weight-bold d-block">{{ i.position }}</span>
+          <span class="d-block text-black-50 labels">
+            {{ i.organization }}</span>
+          <span class="d-block text-black-50 labels">
+            {{ i.s_date }} - {% if i.present %} Present {% else %} {{ i.e_date }}{% endif %}
+          </span>
+          <a href="{% url 'update_experience' i.id %}">Update</a> |
+          <a href="{% url 'delete_experience' i.id %}">Delete</a>
+        </div>
+      </div>
+      <hr>
+      {% empty %}
+      <p class="mt-3"><b>No recoreds found!</b></p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  document.getElementById('id_present').addEventListener('click', (e) => {
+    console.log(e.target.checked)
+    if (e.target.checked) {
+      document.getElementById('id_e_date').value = JSON.stringify(new Date()).slice(1, 11)
+      document.getElementById('id_e_date').classList.add('disabled')
+    }
+    else {
+      document.getElementById('id_e_date').classList.remove('disabled')
+      document.getElementById('id_e_date').value = ''
+    }
+  })
+</script>
+{% endblock %}
