@@ -1,0 +1,13 @@
+{% extends 'blank.html' %}
+
+{%load static%}
+
+{% block title %}Edit Profile{% endblock title %}
+
+{% load crispy_forms_tags %}
+
+{%block body %}
+<div class="container pt-5">
+  {% crispy form %}
+</div>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends 'blank.html' %}
+{% load static %}
+{% block title %}Profile{% endblock title %}
+
+{% block body %}
+<div class="container">
+
+  {% if messages %}
+  <div class="mt-3">
+    {% for message in messages %}
+    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show"
+      role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mt-4 mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Profile</h1>
+    {% if user.cetificate %}
+    <a href="{{user.certificate.url}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ">
+      <i class="fas fa-download fa-sm text-white-50"></i> Generate Certificate
+    </a>
+    {% else %}
+    <a href="{% url 'generate_certificate' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ">
+      <i class="fas fa-download fa-sm text-white-50"></i> Generate Certificate
+    </a>
+    {% endif %}
+  </div>
+
+  <section>
+    <div class="row">
+
+      <div class="col-lg-4">
+
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img src="{% static 'img/user-icon.jpg' %}" alt="avatar" class="rounded-circle img-fluid"
+              style="width: 150px;">
+            <h5 class="my-3">{{ user.first_name }} {{ user.last_name }}</h5>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <a href="{% url 'update_profile' request.user.pk %}">
+            <button class="btn btn-primary " type="button">Edit</button></a>
+        </div>
+
+      </div>
+
+      <div class="col-lg-8">
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">First Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.first_name }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Last Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.last_name }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.email }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">FST Course Completed</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.course_completed }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Batch</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.batch }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">UG/PG College</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.college }}</p>
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Mobile</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.mobile }}</p>
+              </div>
+            </div>
+            <hr>
+
+            <div class="d-flex">
+
+              <div class="custom-control custom-checkbox mr-2">
+                <input class="custom-control-input" type="checkbox" {% if user.career_opportunity %} checked {% endif %}
+                  id="flexCheckDefault1">
+                <label class="custom-control-label" for="flexCheckDefault1">
+                  Career Opportunity
+                </label>
+              </div>
+              <div class="custom-control custom-checkbox mr-2">
+                <input class="custom-control-input" type="checkbox" {% if user.mentor_students%} checked {% endif %}
+                  id="flexCheckDefault2">
+                <label class="custom-control-label" for="flexCheckDefault2">
+                  Mentor Students
+                </label>
+              </div>
+              <div class="custom-control custom-checkbox mr-2">
+                <input class="custom-control-input" type="checkbox" {% if user.train_students%} checked {% endif %}
+                  id="flexCheckDefault3">
+                <label class="custom-control-label" for="flexCheckDefault3">
+                  Train Students
+                </label>
+              </div>
+              <div class="custom-control custom-checkbox mr-2">
+                <input class="custom-control-input" type="checkbox" {% if user.attend_events%} checked {% endif %}
+                  id="flexCheckDefault4">
+                <label class="custom-control-label" for="flexCheckDefault4">
+                  Attend Events
+                </label>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{%endblock body %}

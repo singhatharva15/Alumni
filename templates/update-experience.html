@@ -1,0 +1,44 @@
+{% extends 'blank.html' %}
+
+{%load static%}
+
+{% block title %}Updte Experience{% endblock title %}
+
+{% load crispy_forms_tags %}
+
+{% block style %}
+<style>
+    .disabled {
+        pointer-events: none;
+        background-color: #eaecf4;
+    }
+</style>
+{% endblock style %}
+{%block body %}
+<div class="container pt-5">
+    {% crispy form %}
+</div>
+{% block script %}
+<script>
+    (() => {
+        console.log(document.getElementById('id_present').checked)
+        if (document.getElementById('id_present').checked) {
+            document.getElementById('id_e_date').value = JSON.stringify(new Date()).slice(1, 11)
+            document.getElementById('id_e_date').classList.add('disabled')
+        }
+
+        document.getElementById('id_present').addEventListener('click', (e) => {
+            if (e.target.checked) {
+                document.getElementById('id_e_date').value = JSON.stringify(new Date()).slice(1, 11)
+                document.getElementById('id_e_date').classList.add('disabled')
+            }
+            else {
+                document.getElementById('id_e_date').classList.remove('disabled')
+                document.getElementById('id_e_date').value = ''
+            }
+        });
+
+    })()
+</script>
+{% endblock %}
+{% endblock %}
