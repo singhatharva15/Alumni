@@ -4,7 +4,7 @@ from django.contrib.auth import login
 from django.contrib import messages
 
 
-from accounts.form import EmailForm, OtpForm
+from accounts.forms import EmailForm, OtpForm
 from accounts.models import User, Otp
 
 
