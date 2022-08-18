@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 
     # Local apps
     'alumni.apps.HomeConfig',
-    'accounts.apps.AccountsConfig',   
+    'accounts.apps.AccountsConfig',
 
     # 3rd party
     'crispy_forms',
@@ -158,7 +158,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -170,7 +169,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "/"
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
@@ -180,7 +179,7 @@ STATICFILES_DIRS = [
 
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
-#Activate heroku
+# Activate heroku
 # import django_heroku
 # django_heroku.settings(locals())
 

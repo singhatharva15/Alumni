@@ -12,7 +12,7 @@ from alumni.models import Career, Opportunities, Events
 #             'Alumni Details',
 #             {
 #                 'fields': (
-#                     'batch', 
+#                     'batch',
 #                     'college',
 #                     'course_completed',
 #                     'mobile',
