@@ -32,26 +32,24 @@ class UserAdmin(ImportExportModelAdmin, BaseUserAdmin):
     ordering = ('email',)
     filter_horizontal = ('groups', 'user_permissions',)
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(is_superuser=False)
+
     def has_change_permission(self, request, obj=None):
-        return request.user.is_superuser
+        return (request.user.is_superuser or request.user.is_staff)
 
-    # def has_delete_permission(self, request, obj=None):
-    #     return self._allow_edit(obj)
+    def has_delete_permission(self, request, obj=None):
+        return (request.user.is_superuser or request.user.is_staff)
 
-    # def has_add_permission(self, request):
-    #     return True
-
-    # def get_actions(self, request):
-    #     actions = super(UserAdmin, self).get_actions(request)
-    #     if request.user.is_staff:
-    #         del actions
-    #     return actions
+    def has_add_permission(self, request):
+        return (request.user.is_superuser or request.user.is_staff)
 
     def has_view_permission(self, request, obj=None):
-        return True
+        return (request.user.is_superuser or request.user.is_staff)
 
     def has_module_permission(self, request):
-        return True
+        return (request.user.is_superuser or request.user.is_staff)
 
     def changelist_view(self, request, extra_context=None):
         if not request.user.is_superuser:
