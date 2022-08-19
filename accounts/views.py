@@ -30,34 +30,38 @@ def verify_otp(request):
         email = request.session.get('email')
 
         if email is None:
-            messages.error(request, message="Something went wrong! Plese try again.")
+            messages.error(
+                request, message="Something went wrong! Plese try again.")
             return redirect('send_otp')
-        
+
         if form.is_valid():
             otp_code = form.cleaned_data['otp']
             user = User.objects.get(email=email)
-            
+
             if user is None:
-                messages.error(request, message="You are not registered please contact admin!")
+                messages.error(
+                    request, message="You are not registered please contact admin!")
                 return redirect('send_otp')
 
             otp_obj = Otp.objects.get(user=user)
 
             if otp_code != otp_obj.otp:
-                messages.error(request, message="OTP didn't match please try again.")
+                messages.error(
+                    request, message="OTP didn't match please try again.")
                 return redirect('verify_otp')
-            
+
             login(request, user)
             otp_obj.is_valid = False
+            del request.session['email']
             return redirect('profile')
 
         return render(request, 'registration/verify_otp.html', {"form": form})
     else:
         email = request.session.get('email')
         if email is None:
-            messages.error(request, message="Something went wrong! Plese try again.")
+            messages.error(
+                request, message="Something went wrong! Plese try again.")
             return redirect('send_otp')
-        
+
         form = OtpForm()
     return render(request, 'registration/verify_otp.html', {"form": form})
-    
