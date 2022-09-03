@@ -1,11 +1,12 @@
 import os
 import requests
 
+
 def send_otp_to_email(email, var1, var2):
     url = "https://api.msg91.com"
 
     payload = {
-        "to": 
+        "to":
         [
             {
                 "name": f"{var1}",
@@ -23,14 +24,15 @@ def send_otp_to_email(email, var1, var2):
             "VAR1": f"{var1}",
             "VAR2": f"{var2}"
         },
-        "authkey": os.environ['MSG91_API_KEY']
+        "authkey": "377904AoGH8lt3b5GI629d3576P1"
     }
 
     headers = {
         'Content-Type': "application/JSON",
         'Accept': "application/json"
-        }
+    }
 
-    res = requests.post(url+"/api/v5/email/send", json=payload, headers=headers)
+    res = requests.post(url+"/api/v5/email/send",
+                        json=payload, headers=headers)
 
     return res
