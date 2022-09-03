@@ -24,7 +24,7 @@ def send_otp_to_email(email, var1, var2):
             "VAR1": f"{var1}",
             "VAR2": f"{var2}"
         },
-        "authkey": "377904AoGH8lt3b5GI629d3576P1"
+        "authkey": os.environ['MSG91_API_KEY']
     }
 
     headers = {
