@@ -5,30 +5,30 @@ from django.utils import timezone
 
 class UserManager(BaseUserManager):
 
-  def _create_user(self, email, password, is_staff, is_superuser, **extra_fields):
-    if not email:
-        raise ValueError('Users must have an email address')
-    now = timezone.now()
-    email = self.normalize_email(email)
-    user = self.model(
-        email=email,
-        is_staff=is_staff, 
-        is_active=True,
-        is_superuser=is_superuser, 
-        last_login=now,
-        date_joined=now, 
-        **extra_fields
-    )
-    user.set_password(password)
-    user.save(using=self._db)
-    return user
+    def _create_user(self, email, password, is_staff, is_superuser, **extra_fields):
+        if not email:
+            raise ValueError('Users must have an email address')
+        now = timezone.now()
+        email = self.normalize_email(email)
+        user = self.model(
+            email=email,
+            is_staff=is_staff,
+            is_active=True,
+            is_superuser=is_superuser,
+            last_login=now,
+            date_joined=now,
+            **extra_fields
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-  def create_user(self, email, password, **extra_fields):
-    return self._create_user(email, password, False, False, **extra_fields)
+    def create_user(self, email, password, **extra_fields):
+        return self._create_user(email, password, False, False, **extra_fields)
 
-  def create_superuser(self, email, password, **extra_fields):
-    user=self._create_user(email, password, True, True, **extra_fields)
-    return user
+    def create_superuser(self, email, password, **extra_fields):
+        user = self._create_user(email, password, True, True, **extra_fields)
+        return user
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -44,12 +44,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     batch = models.CharField(max_length=10)
     college = models.CharField(max_length=100)
     course_completed = models.CharField(max_length=75)
-    mobile = models.IntegerField(null=True)
+    mobile = models.CharField(max_length=10)
     career_opportunity = models.BooleanField(default=False)
     mentor_students = models.BooleanField(default=False)
     train_students = models.BooleanField(default=False)
     attend_events = models.BooleanField(default=False)
-    
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
@@ -62,6 +61,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Otp(models.Model):
-  user = models.ForeignKey(User, on_delete=models.CASCADE)
-  otp = models.CharField(max_length=100)
-  is_valid = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    otp = models.CharField(max_length=100)
+    is_valid = models.BooleanField(default=False)
