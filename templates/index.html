@@ -62,7 +62,7 @@
                 <p class="mb-0">First Name</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">{{ user.first_name }}</p>
+                <b class="text-muted mb-0">{{ user.first_name }}</b>
               </div>
             </div>
             <hr>
@@ -71,7 +71,7 @@
                 <p class="mb-0">Last Name</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">{{ user.last_name }}</p>
+                <b class="text-muted mb-0">{{ user.last_name }}</b>
               </div>
             </div>
             <hr>
@@ -80,16 +80,16 @@
                 <p class="mb-0">Email</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">{{ user.email }}</p>
+                <b class="text-muted mb-0">{{ user.email }}</b>
               </div>
             </div>
             <hr>
             <div class="row">
               <div class="col-sm-3">
-                <p class="mb-0">FST Course Completed</p>
+                <p class="mb-0">Course Completed</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">{{ user.course_completed }}</p>
+                <b class="text-muted mb-0">{{ user.course_completed }}</b>
               </div>
             </div>
             <hr>
@@ -98,7 +98,7 @@
                 <p class="mb-0">Batch</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">{{ user.batch }}</p>
+                <b class="text-muted mb-0">{% if user.batch %} {{ user.batch }} {% else %} - {% endif %}</b>
               </div>
             </div>
             <hr>
@@ -107,7 +107,7 @@
                 <p class="mb-0">UG/PG College</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">{{ user.college }}</p>
+                <b class="text-muted mb-0">{{ user.college }}</b>
               </div>
             </div>
             <hr>
@@ -117,7 +117,7 @@
                 <p class="mb-0">Mobile</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">{{ user.mobile }}</p>
+                <b class="text-muted mb-0">{{ user.mobile }}</b>
               </div>
             </div>
             <hr>

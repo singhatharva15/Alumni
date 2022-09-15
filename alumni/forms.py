@@ -1,9 +1,12 @@
-from django import forms
-from .models import Career
-from accounts.models import User
+from faulthandler import disable
 import re
+
+from accounts.models import User
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Row, Column, Field, HTML, Submit
+from crispy_forms.layout import HTML, Column, Field, Layout, Row, Submit
+from django import forms
+
+from .models import Career
 
 
 class ProfileForm(forms.ModelForm):
@@ -14,25 +17,46 @@ class ProfileForm(forms.ModelForm):
             'last_name',
             'college',
             'course_completed',
+            'email',
             'mobile',
+            'batch',
             'career_opportunity',
             'mentor_students',
             'train_students',
             'attend_events'
         )
 
+        widgets = {
+            'first_name': forms.TextInput(attrs={'disabled': True}),
+            'batch': forms.TextInput(attrs={'disabled': True}),
+            'last_name': forms.TextInput(attrs={'disabled': True}),
+            'college': forms.TextInput(attrs={'disabled': True}),
+            'course_completed': forms.TextInput(attrs={'disabled': True}),
+            'email': forms.TextInput(attrs={'disabled': False}),
+            'mobile': forms.TextInput(attrs={'disabled': False}),
+            'career_opportunity': forms.CheckboxInput(attrs={'disabled': True}),
+            'mentor_students': forms.CheckboxInput(attrs={'disabled': True}),
+            'train_students': forms.CheckboxInput(attrs={'disabled': True}),
+            'attend_events': forms.CheckboxInput(attrs={'disabled': True}),
+        }
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            HTML('<h3 class="mt-4 mb-3">Update Profile</h3>'),
+            HTML('<h3 class="mb-3">Update Profile</h3>'),
             Row(
-                Column(Field('first_name'), css_class='col-sm-12 col-md-4'),
-                Column(Field('last_name'), css_class='col-sm-12 col-md-4',),
-                Column(Field('mobile'), css_class='col-sm-12 col-md-4'),
+                Column(Field('first_name'), css_class='col-sm-12 col-md-6'),
+                Column(Field('last_name'), css_class='col-sm-12 col-md-6',),
+                Column(Field('email'), css_class='col-sm-12 col-md-6'),
+                Column(Field('mobile'), css_class='col-sm-12 col-md-6'),
+                
+            ),
+            Row(
+                Column(Field('batch'), css_class='col-sm-12 col-md-2'),
+                Column(Field('college'), css_class='col-sm-12 col-md-10'),
                 css_class='row'
             ),
-            'college',
             'course_completed',
             Row(
                 Column(Field('career_opportunity'),
@@ -53,7 +77,7 @@ class ProfileForm(forms.ModelForm):
         mobile = cleaned_data.get('mobile')
         if len(re.findall("^\d{10}$", mobile)) == 0:
             raise forms.ValidationError(
-                "Phone number must be entered in the format: '+999999999'. Up to 15 digits is allowed.")
+                "Phone number must be 10 digits.")
 
 
 class CareerForm(forms.ModelForm):

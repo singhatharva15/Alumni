@@ -37,3 +37,13 @@ class Opportunities(models.Model):
 
     class Meta:
         verbose_name_plural = "Opportunities"
+
+
+class UserCert(models.Model):
+    # certificate related fileds
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    display_name = models.CharField(max_length=254, null=True, blank=True)
+    show_cert = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return self.user.email

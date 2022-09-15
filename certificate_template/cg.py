@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw, ImageFont
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
 
-def cg(name):
+def generate_certificate(name):
     try:
         print(BASE_DIR)
         # adjust the position according to 

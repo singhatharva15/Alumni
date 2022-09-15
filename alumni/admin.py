@@ -1,5 +1,5 @@
 from django.contrib import admin
-from alumni.models import Career, Opportunities, Events
+from alumni.models import Career, Opportunities, Events, UserCert
 
 
 # class CustomUserAdmin(UserAdmin):
@@ -30,3 +30,4 @@ from alumni.models import Career, Opportunities, Events
 admin.site.register(Events)
 admin.site.register(Opportunities)
 admin.site.register(Career)
+admin.site.register(UserCert)

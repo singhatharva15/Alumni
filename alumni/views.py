@@ -6,9 +6,9 @@ from django.contrib import messages
 from django.contrib.auth.models import auth
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
-from certificate_template.cg import cg
+from certificate_template.cg import generate_certificate as cg
 
-from alumni.models import Opportunities, Career, Events
+from alumni.models import Opportunities, Career, Events, UserCert
 from alumni.forms import CareerForm, ProfileForm
 from accounts.models import User
 
@@ -82,7 +82,15 @@ def opportunity(request):
 
 # generate certificate
 def generate_certificate(request):
-    img = cg(request.user.email.split('@')[0])
-    response = HttpResponse(content_type="image/png")
-    img.save(response, "PNG")
-    return response
+    try:
+        cert_obj = get_object_or_404(UserCert, user=request.user)
+        if cert_obj.show_cert:
+            img = cg(cert_obj.display_name)
+            response = HttpResponse(content_type="image/png")
+            img.save(response, "PNG")
+            return response
+        else:
+            return HttpResponse("Certificate generation failed. Please contact Administator.")
+    except Exception as e:
+        print(e)
+        return HttpResponse("Certificate generation failed. Please contact Administator.")
