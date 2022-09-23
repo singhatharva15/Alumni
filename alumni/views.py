@@ -81,16 +81,22 @@ def opportunity(request):
 
 
 # generate certificate
+# def generate_certificate(request):
+#     try:
+#         cert_obj = get_object_or_404(UserCert, user=request.user)
+#         if cert_obj.show_cert:
+#             img = cg(cert_obj.display_name)
+#             response = HttpResponse(content_type="image/png")
+#             img.save(response, "PNG")
+#             return response
+#         else:
+#             return HttpResponse("Certificate generation failed. Please contact Administator.")
+#     except Exception as e:
+#         print(e)
+#         return HttpResponse("Certificate generation failed. Please contact Administator.")
+
 def generate_certificate(request):
-    try:
-        cert_obj = get_object_or_404(UserCert, user=request.user)
-        if cert_obj.show_cert:
-            img = cg(cert_obj.display_name)
-            response = HttpResponse(content_type="image/png")
-            img.save(response, "PNG")
-            return response
-        else:
-            return HttpResponse("Certificate generation failed. Please contact Administator.")
-    except Exception as e:
-        print(e)
-        return HttpResponse("Certificate generation failed. Please contact Administator.")
+    img = cg(f"{request.user.first_name} {request.user.last_name}")
+    response = HttpResponse(content_type="image/png")
+    img.save(response, "PNG")
+    return response

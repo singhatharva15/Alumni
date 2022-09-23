@@ -1,4 +1,3 @@
-from faulthandler import disable
 import re
 
 from accounts.models import User
@@ -6,8 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Column, Field, Layout, Row, Submit
 from django import forms
 
-from .models import Career
-
+from .models import Career, UserCert
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -26,25 +24,55 @@ class ProfileForm(forms.ModelForm):
             'attend_events'
         )
 
-        widgets = {
-            'first_name': forms.TextInput(attrs={'disabled': True}),
-            'batch': forms.TextInput(attrs={'disabled': True}),
-            'last_name': forms.TextInput(attrs={'disabled': True}),
-            'college': forms.TextInput(attrs={'disabled': True}),
-            'course_completed': forms.TextInput(attrs={'disabled': True}),
-            'email': forms.TextInput(attrs={'disabled': False}),
-            'mobile': forms.TextInput(attrs={'disabled': False}),
-            'career_opportunity': forms.CheckboxInput(attrs={'disabled': True}),
-            'mentor_students': forms.CheckboxInput(attrs={'disabled': True}),
-            'train_students': forms.CheckboxInput(attrs={'disabled': True}),
-            'attend_events': forms.CheckboxInput(attrs={'disabled': True}),
-        }
+        # widgets = {
+        #     'first_name': forms.TextInput(attrs={'disabled': True}),
+        #     'last_name': forms.TextInput(attrs={'disabled': True}),
+        #     'batch': forms.TextInput(attrs={'disabled': True}),
+        #     'college': forms.TextInput(attrs={'disabled': True}),
+        #     'course_completed': forms.TextInput(attrs={'disabled': True}),
+        #     'email': forms.TextInput(attrs={'disabled': False}),
+        #     'mobile': forms.TextInput(attrs={'disabled': False}),
+        #     'career_opportunity': forms.CheckboxInput(attrs={'disabled': True}),
+        #     'mentor_students': forms.CheckboxInput(attrs={'disabled': True}),
+        #     'train_students': forms.CheckboxInput(attrs={'disabled': True}),
+        #     'attend_events': forms.CheckboxInput(attrs={'disabled': True}),
+        # }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        instance = getattr(self, 'instance', None)
+        if instance and instance.pk:
+            self.fields['first_name'].required = False
+            self.fields['first_name'].widget.attrs['disabled'] = 'disabled'
+            
+            self.fields['last_name'].required = False
+            self.fields['last_name'].widget.attrs['disabled'] = 'disabled'
+
+            self.fields['batch'].required = False
+            self.fields['batch'].widget.attrs['disabled'] = 'disabled'
+
+            self.fields['college'].required = False
+            self.fields['college'].widget.attrs['disabled'] = 'disabled'
+
+            self.fields['course_completed'].required = False
+            self.fields['course_completed'].widget.attrs['disabled'] = 'disabled'
+
+            # self.fields['career_opportunity'].required = False
+            # self.fields['career_opportunity'].widget.attrs['disabled'] = 'disabled'
+
+            # self.fields['mentor_students'].required = False
+            # self.fields['mentor_students'].widget.attrs['disabled'] = 'disabled'
+
+            # self.fields['train_students'].required = False
+            # self.fields['train_students'].widget.attrs['disabled'] = 'disabled'
+
+            # self.fields['attend_events'].required = False
+            # self.fields['attend_events'].widget.attrs['disabled'] = 'disabled'
+
+
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            HTML('<h3 class="mb-3">Update Profile</h3>'),
+            HTML(f'<h3 class="mb-3">Update Profile</h3>'),
             Row(
                 Column(Field('first_name'), css_class='col-sm-12 col-md-6'),
                 Column(Field('last_name'), css_class='col-sm-12 col-md-6',),
@@ -72,12 +100,30 @@ class ProfileForm(forms.ModelForm):
                    'Update Profile', css_class="btn btn-primary")
         )
 
+
     def clean(self):
+        instance = getattr(self, 'instance', None)
+        # if instance:
+        #     return instance
+        # else:
         cleaned_data = super().clean()
         mobile = cleaned_data.get('mobile')
+        email = cleaned_data.get('email')
+
+        instance.email = email
+        instance.mobile = mobile
+
+        user_id = self.instance.id
+
         if len(re.findall("^\d{10}$", mobile)) == 0:
             raise forms.ValidationError(
                 "Phone number must be 10 digits.")
+        
+        user_obj = User.objects.get(id=user_id)
+
+        usercert = UserCert.objects.get(user=user_obj)
+        usercert.show_cert = False
+        usercert.save()
 
 
 class CareerForm(forms.ModelForm):
