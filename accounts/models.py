@@ -41,6 +41,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     first_name = models.CharField(max_length=254, null=True, blank=True)
     last_name = models.CharField(max_length=254, null=True, blank=True)
+    display_name = models.CharField(max_length=254, null=True, blank=True)
     batch = models.CharField(max_length=254, null=True, blank=True)
     college = models.CharField(max_length=254, null=True, blank=True)
     course_completed = models.CharField(max_length=254, null=True, blank=True)
@@ -49,6 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     mentor_students = models.BooleanField(default=False)
     train_students = models.BooleanField(default=False)
     attend_events = models.BooleanField(default=False)
+    show_certificate = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'

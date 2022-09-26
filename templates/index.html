@@ -22,6 +22,11 @@
   <!-- Page Heading -->
   <div class="d-sm-flex align-items-center justify-content-between mt-4 mb-4">
     <h1 class="h3 mb-0 text-gray-800">Profile</h1>
+    {% if not user.show_certificate %}
+    <button href="#" class="d-none d-sm-inline-block btn btn-sm btn-warning shadow-sm ">
+      <i class="fas fa-download fa-sm text-white-50"></i> Pending Certificate
+    </button>
+    {% else %}
     {% if user.cetificate %}
     <a href="{{user.certificate.url}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ">
       <i class="fas fa-download fa-sm text-white-50"></i> Generate Certificate
@@ -30,6 +35,7 @@
     <a href="{% url 'generate_certificate' %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ">
       <i class="fas fa-download fa-sm text-white-50"></i> Generate Certificate
     </a>
+    {% endif %}
     {% endif %}
   </div>
 
@@ -72,6 +78,15 @@
               </div>
               <div class="col-sm-9">
                 <b class="text-muted mb-0">{{ user.last_name }}</b>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Display Name</p>
+              </div>
+              <div class="col-sm-9">
+                <b class="text-muted mb-0">{{ user.display_name }}</b>
               </div>
             </div>
             <hr>

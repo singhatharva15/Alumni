@@ -1,3 +1,4 @@
+from weakref import proxy
 from django.db import models
 
 from accounts.models import User
@@ -39,11 +40,14 @@ class Opportunities(models.Model):
         verbose_name_plural = "Opportunities"
 
 
-class UserCert(models.Model):
-    # certificate related fileds
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    display_name = models.CharField(max_length=254, null=True, blank=True)
-    show_cert = models.BooleanField(default=False)
+# class UserProxy(User):
+#     class Meta:
+#         proxy = True
+        # class UserCert(models.Model):
+        #     # certificate related fileds
+        #     user = models.ForeignKey(User, on_delete=models.CASCADE)
+        #     display_name = models.CharField(max_length=254, null=True, blank=True)
+        #     show_cert = models.BooleanField(default=False)
 
-    def __str__(self) -> str:
-        return self.user.email
+        #     def __str__(self) -> str:
+        #         return self.user.email

@@ -5,7 +5,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Column, Field, Layout, Row, Submit
 from django import forms
 
-from .models import Career, UserCert
+from .models import Career
+
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -13,6 +14,7 @@ class ProfileForm(forms.ModelForm):
         fields = (
             'first_name',
             'last_name',
+            'display_name',
             'college',
             'course_completed',
             'email',
@@ -44,7 +46,7 @@ class ProfileForm(forms.ModelForm):
         if instance and instance.pk:
             self.fields['first_name'].required = False
             self.fields['first_name'].widget.attrs['disabled'] = 'disabled'
-            
+
             self.fields['last_name'].required = False
             self.fields['last_name'].widget.attrs['disabled'] = 'disabled'
 
@@ -69,16 +71,15 @@ class ProfileForm(forms.ModelForm):
             # self.fields['attend_events'].required = False
             # self.fields['attend_events'].widget.attrs['disabled'] = 'disabled'
 
-
         self.helper = FormHelper()
         self.helper.layout = Layout(
             HTML(f'<h3 class="mb-3">Update Profile</h3>'),
             Row(
                 Column(Field('first_name'), css_class='col-sm-12 col-md-6'),
                 Column(Field('last_name'), css_class='col-sm-12 col-md-6',),
+                Column(Field('display_name'), css_class='col-sm-12 col-md-12'),
                 Column(Field('email'), css_class='col-sm-12 col-md-6'),
                 Column(Field('mobile'), css_class='col-sm-12 col-md-6'),
-                
             ),
             Row(
                 Column(Field('batch'), css_class='col-sm-12 col-md-2'),
@@ -100,7 +101,6 @@ class ProfileForm(forms.ModelForm):
                    'Update Profile', css_class="btn btn-primary")
         )
 
-
     def clean(self):
         instance = getattr(self, 'instance', None)
         # if instance:
@@ -110,20 +110,29 @@ class ProfileForm(forms.ModelForm):
         mobile = cleaned_data.get('mobile')
         email = cleaned_data.get('email')
 
-        instance.email = email
-        instance.mobile = mobile
+        cleaned_data['first_name'] = instance.first_name
+        cleaned_data['last_name'] = instance.last_name
+        cleaned_data['batch'] = instance.batch
+        cleaned_data['college'] = instance.college
+        cleaned_data['course_completed'] = instance.course_completed
+        cleaned_data['email'] = email
+        cleaned_data['mobile'] = mobile
+        # cleaned_data['career_opportunity'] = instance.career_opportunity
+        # cleaned_data['mentor_students'] = instance.mentor_students
+        # cleaned_data['train_students'] = instance.train_students
+        # cleaned_data['attend_events'] = instance.attend_events
 
-        user_id = self.instance.id
+        # user_id = self.instance.id
 
         if len(re.findall("^\d{10}$", mobile)) == 0:
             raise forms.ValidationError(
                 "Phone number must be 10 digits.")
-        
-        user_obj = User.objects.get(id=user_id)
 
-        usercert = UserCert.objects.get(user=user_obj)
-        usercert.show_cert = False
-        usercert.save()
+        # user_obj = User.objects.get(id=user_id)
+        instance.show_certificate = False
+        # usercert, _created = UserCert.objects.get_or_create(user=user_obj)
+        # usercert.show_cert = False
+        # usercert.save()
 
 
 class CareerForm(forms.ModelForm):

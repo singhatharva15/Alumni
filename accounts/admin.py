@@ -54,11 +54,11 @@ class UserAdmin(ImportExportModelAdmin, BaseUserAdmin):
     def changelist_view(self, request, extra_context=None):
         if not request.user.is_superuser:
             self.list_display = ['email', 'first_name', 'last_name',
-                                 'mobile']
+                                 'mobile', 'display_name', 'show_certificate']
             self.list_filter = []
             self.fieldsets = (
-                (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'college', 'batch', 'course_completed',
-                                   'mobile', 'career_opportunity', 'mentor_students', 'train_students', 'attend_events', 'last_login')}),
+                (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'display_name', 'college', 'batch', 'course_completed',
+                                   'mobile', 'show_certificate', 'career_opportunity', 'mentor_students', 'train_students', 'attend_events', 'last_login')}),
             )
         else:
             self.list_display = ['email', 'first_name', 'last_name',
@@ -66,8 +66,8 @@ class UserAdmin(ImportExportModelAdmin, BaseUserAdmin):
             self.list_filter = ('is_staff', 'is_superuser',
                                 'is_active', 'groups')
             self.fieldsets = (
-                (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'college', 'batch', 'course_completed',
-                                   'mobile', 'career_opportunity', 'mentor_students', 'train_students', 'attend_events', 'last_login')}),
+                (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'display_name', 'college', 'batch', 'course_completed',
+                                   'mobile', 'show_certificate', 'career_opportunity', 'mentor_students', 'train_students', 'attend_events', 'last_login')}),
                 ('Permissions', {'fields': (
                     'is_active',
                     'is_staff',

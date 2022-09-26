@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from certificate_template.cg import generate_certificate as cg
 
-from alumni.models import Opportunities, Career, Events, UserCert
+from alumni.models import Opportunities, Career, Events
 from alumni.forms import CareerForm, ProfileForm
 from accounts.models import User
 
@@ -16,9 +16,11 @@ from accounts.models import User
 # Profile view
 @login_required
 def profile(request):
-    return render(request,"index.html", {})
+    return render(request, "index.html", {})
 
 # update profile view
+
+
 class UpdateProfile(LoginRequiredMixin, UpdateView):
     model = User
     form_class = ProfileForm
@@ -43,7 +45,7 @@ class CareerCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-    
+
     def get_success_url(self):
         messages.success(self.request, 'Recored Inserted Successfully')
         return reverse_lazy('career')
@@ -60,24 +62,26 @@ class UpdateExperice(LoginRequiredMixin, UpdateView):
         return reverse_lazy('career')
 
 # career delete view
+
+
 @login_required
-def destroyBatch(request, pk):  
-    car = Career.objects.get(pk=pk)  
-    car.delete()  
+def destroyBatch(request, pk):
+    car = Career.objects.get(pk=pk)
+    car.delete()
     messages.success(request, 'Recored Deleted Successfully')
     return redirect('career',)
 
 
 @login_required
 def events(request):
-    even= Events.objects.all()
-    return render(request,"events.html",{'events': even})
+    even = Events.objects.all()
+    return render(request, "events.html", {'events': even})
 
 
 @login_required
 def opportunity(request):
-    opp= Opportunities.objects.all()
-    return render(request,"opportunity.html",{'opps': opp})
+    opp = Opportunities.objects.all()
+    return render(request, "opportunity.html", {'opps': opp})
 
 
 # generate certificate
