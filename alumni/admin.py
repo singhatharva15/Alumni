@@ -1,6 +1,6 @@
 from django.contrib import admin
 from accounts.models import User
-from alumni.models import Career, Opportunities, Events
+from alumni.models import Career, Opportunities, Events, Applications, EventAttendees
 
 # class CustomUserAdmin(UserAdmin):
 #     model = CustomUser
@@ -35,7 +35,10 @@ from alumni.models import Career, Opportunities, Events
 #     ordering = ('display_name',)
 
 
-admin.site.register(Events)
-admin.site.register(Opportunities)
 admin.site.register(Career)
+admin.site.register(Events)
+admin.site.register(EventAttendees)
+admin.site.register(Opportunities)
+admin.site.register(Applications)
+
 # admin.site.register(UserProxy, UserPendingCert)

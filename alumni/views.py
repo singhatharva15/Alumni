@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from certificate_template.cg import generate_certificate as cg
 
-from alumni.models import Opportunities, Career, Events
+from alumni.models import Applications, Opportunities, Career, Events
 from alumni.forms import CareerForm, ProfileForm
 from accounts.models import User
 
@@ -79,10 +79,32 @@ def events(request):
 
 
 @login_required
+def opp_apply(request):
+    event_id = request.GET["pk"]
+    event_obj, created = Applications.objects.get_or_create(
+        user=request.uesr, event=event_id)
+
+    print(event_obj)
+    print(created)
+
+
+@login_required
 def opportunity(request):
     opp = Opportunities.objects.all()
     return render(request, "opportunity.html", {'opps': opp})
 
+
+@login_required
+def opp_apply(request):
+    id = request.GET["pk"]
+    obj, created = Applications.objects.get_or_create(
+        user=request.uesr, event=id)
+
+    print(obj)
+    print(created)
+
+    if obj:
+        return request("")
 
 # generate certificate
 # def generate_certificate(request):
@@ -98,6 +120,7 @@ def opportunity(request):
 #     except Exception as e:
 #         print(e)
 #         return HttpResponse("Certificate generation failed. Please contact Administator.")
+
 
 def generate_certificate(request):
     img = cg(f"{request.user.first_name} {request.user.last_name}")

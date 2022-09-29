@@ -2,16 +2,16 @@
 {% load static %}
 
 {%block title %}Upcoming Events{% endblock title%}
-{%block body %} 
- <div class="container-fluid">
+{%block body %}
+<div class="container-fluid">
 
     <!-- Page Heading -->
-    <div class="container-fluid" >
+    <div class="container-fluid">
 
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mt-4 mb-4" >
+        <div class="d-sm-flex align-items-center justify-content-between mt-4 mb-4">
             <h1 class="h3 mb-0 text-gray-800">Upcoming Events</h1>
-            
+
         </div>
     </div>
 
@@ -30,22 +30,26 @@
                             <th>Time</th>
                             <th>Location</th>
                             <th>Remark</th>
+                            <th>Apply</th>
                         </tr>
                     </thead>
-    
+
                     <tbody>
-                    {% for dat in events %}
+                        {% for dat in events %}
                         <tr>
                             <td>{{ dat.event_name}}</td>
                             <td>{{ dat.date}}</td>
                             <td>{{ dat.time}}</td>
                             <td>{{ dat.location}}</td>
-                            <td>{{ dat.remark}}</td>
-                            
+                            <td>{{ dat.Remark}}</td>
+                            <td>
+                                <a href="{% url 'event_apply' 'request.user.id' %}" class="btn btn-success">Apply
+                                    Now</a>
+                            </td>
                         </tr>
                         {% endfor %}
-                        
-                        
+
+
                     </tbody>
                 </table>
             </div>

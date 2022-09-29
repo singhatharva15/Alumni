@@ -2,16 +2,16 @@
 {% load static %}
 
 {%block title %}Opportunities{% endblock title%}
-{%block body %} 
- <div class="container-fluid">
+{%block body %}
+<div class="container-fluid">
 
     <!-- Page Heading -->
-    <div class="container-fluid" >
+    <div class="container-fluid">
 
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mt-4 mb-4" >
+        <div class="d-sm-flex align-items-center justify-content-between mt-4 mb-4">
             <h1 class="h3 mb-0 text-gray-800">Opportunities</h1>
-            
+
         </div>
     </div>
 
@@ -29,10 +29,10 @@
                             <th>Organization</th>
                             <th>Criteria</th>
                             <th>Remark</th>
-                           
+                            <th>Apply</th>
                         </tr>
                     </thead>
-                   
+
                     <tbody>
                         {% for opp in opps%}
                         <tr>
@@ -40,12 +40,15 @@
                             <td>{{opp.organization}}</td>
                             <td>{{opp.criteria}}</td>
                             <td>{{opp.remark}}</td>
-                            
+                            <td>
+                                <a href="{% url 'opp_apply' 'request.user.id' %}" class="btn btn-success">Apply Now</a>
+                            </td>
+
                         </tr>
                         {% endfor %}
-                       
-                        
-                        
+
+
+
                     </tbody>
                 </table>
             </div>
