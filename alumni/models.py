@@ -47,7 +47,7 @@ class EventAttendees(models.Model):
     event = models.ForeignKey(Events, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.email
+        return f"{self.event.event_name} - {self.user.email}"
 
     class Meta:
         verbose_name_plural = "Event Attendees"
@@ -56,10 +56,10 @@ class EventAttendees(models.Model):
 class Applications(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     OppAplications = models.ForeignKey(
-        EventAttendees, on_delete=models.CASCADE)
+        Opportunities, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.email
+        return f"{self.OppAplications.title} - {self.user.email}"
 
     class Meta:
         verbose_name_plural = "Applications"

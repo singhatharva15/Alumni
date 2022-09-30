@@ -5,6 +5,19 @@
 {%block body %}
 <div class="container-fluid">
 
+    {% if messages %}
+    <div class="mt-3">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show"
+            role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <!-- Page Heading -->
     <div class="container-fluid">
 
@@ -43,7 +56,7 @@
                             <td>{{ dat.location}}</td>
                             <td>{{ dat.Remark}}</td>
                             <td>
-                                <a href="{% url 'event_apply' 'request.user.id' %}" class="btn btn-success">Apply
+                                <a href="{% url 'event_apply' dat.id %}" class="btn btn-success">Apply
                                     Now</a>
                             </td>
                         </tr>

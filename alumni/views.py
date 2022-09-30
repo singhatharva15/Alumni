@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from certificate_template.cg import generate_certificate as cg
 
-from alumni.models import Applications, Opportunities, Career, Events
+from alumni.models import Applications, EventAttendees, Opportunities, Career, Events
 from alumni.forms import CareerForm, ProfileForm
 from accounts.models import User
 
@@ -78,14 +78,14 @@ def events(request):
     return render(request, "events.html", {'events': even})
 
 
-@login_required
-def opp_apply(request):
-    event_id = request.GET["pk"]
-    event_obj, created = Applications.objects.get_or_create(
-        user=request.uesr, event=event_id)
+# @login_required
+# def opp_apply(request):
+#     event_id = request.GET["pk"]
+#     event_obj, created = Applications.objects.get_or_create(
+#         user=request.uesr, event=event_id)
 
-    print(event_obj)
-    print(created)
+#     print(event_obj)
+#     print(created)
 
 
 @login_required
@@ -95,16 +95,38 @@ def opportunity(request):
 
 
 @login_required
-def opp_apply(request):
-    id = request.GET["pk"]
-    obj, created = Applications.objects.get_or_create(
-        user=request.uesr, event=id)
+def event_apply(request, pk):
+    obj = Events.objects.get(id=pk)
 
-    print(obj)
-    print(created)
+    present = EventAttendees.objects.filter(
+        user=request.user, event=obj).exists()
 
-    if obj:
-        return request("")
+    if present:
+        messages.error(request, "You have alredy applied!")
+        return redirect('events')
+    else:
+        EventAttendees.objects.create(
+            user=request.user, event=obj)
+        messages.success(request, 'Applied Successfully')
+        return redirect('events')
+
+
+@login_required
+def opp_apply(request, pk):
+    obj = Opportunities.objects.get(id=pk)
+
+    present = Applications.objects.filter(
+        user=request.user, OppAplications=obj).exists()
+
+    if present:
+        messages.error(request, "You have alredy applied!")
+        return redirect('opportunities')
+    else:
+        Applications.objects.create(
+            user=request.user, OppAplications=obj)
+        messages.success(request, 'Applied Successfully')
+        return redirect('opportunities')
+
 
 # generate certificate
 # def generate_certificate(request):

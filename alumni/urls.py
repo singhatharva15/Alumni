@@ -19,7 +19,7 @@ urlpatterns = [
          name='generate_certificate'),
     # path('career/', views.career),
     path('events/', views.events, name='events'),
-    path('event-apply/<pk>', views.events, name='event_apply'),
+    path('event-apply/<pk>', views.event_apply, name='event_apply'),
 
     path('opportunity/', views.opportunity, name='opportunities'),
     path('opp-apply/<pk>', views.opp_apply, name='opp_apply'),
