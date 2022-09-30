@@ -2,16 +2,29 @@
 {% load static %}
 
 {%block title %}Upcoming Events{% endblock title%}
-{%block body %} 
- <div class="container-fluid">
+{%block body %}
+<div class="container-fluid">
 
+    {% if messages %}
+    <div class="mt-3">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show"
+            role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <!-- Page Heading -->
-    <div class="container-fluid" >
+    <div class="container-fluid">
 
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mt-4 mb-4" >
+        <div class="d-sm-flex align-items-center justify-content-between mt-4 mb-4">
             <h1 class="h3 mb-0 text-gray-800">Upcoming Events</h1>
-            
+
         </div>
     </div>
 
@@ -30,22 +43,26 @@
                             <th>Time</th>
                             <th>Location</th>
                             <th>Remark</th>
+                            <th>Apply</th>
                         </tr>
                     </thead>
-    
+
                     <tbody>
-                    {% for dat in events %}
+                        {% for dat in events %}
                         <tr>
                             <td>{{ dat.event_name}}</td>
                             <td>{{ dat.date}}</td>
                             <td>{{ dat.time}}</td>
                             <td>{{ dat.location}}</td>
-                            <td>{{ dat.remark}}</td>
-                            
+                            <td>{{ dat.Remark}}</td>
+                            <td>
+                                <a href="{% url 'event_apply' dat.id %}" class="btn btn-success">Apply
+                                    Now</a>
+                            </td>
                         </tr>
                         {% endfor %}
-                        
-                        
+
+
                     </tbody>
                 </table>
             </div>

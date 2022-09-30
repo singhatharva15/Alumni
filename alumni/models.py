@@ -35,5 +35,44 @@ class Opportunities(models.Model):
     criteria = models.CharField(max_length=100)
     remark = models.TextField()
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         verbose_name_plural = "Opportunities"
+
+
+class EventAttendees(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Events, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.event.event_name} - {self.user.email}"
+
+    class Meta:
+        verbose_name_plural = "Event Attendees"
+
+
+class Applications(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    OppAplications = models.ForeignKey(
+        Opportunities, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.OppAplications.title} - {self.user.email}"
+
+    class Meta:
+        verbose_name_plural = "Applications"
+
+
+# class UserProxy(User):
+#     class Meta:
+#         proxy = True
+    # class UserCert(models.Model):
+    #     # certificate related fileds
+    #     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    #     display_name = models.CharField(max_length=254, null=True, blank=True)
+    #     show_cert = models.BooleanField(default=False)
+
+    #     def __str__(self) -> str:
+    #         return self.user.email

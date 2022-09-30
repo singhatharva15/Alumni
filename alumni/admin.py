@@ -1,6 +1,6 @@
 from django.contrib import admin
-from alumni.models import Career, Opportunities, Events
-
+from accounts.models import User
+from alumni.models import Career, Opportunities, Events, Applications, EventAttendees
 
 # class CustomUserAdmin(UserAdmin):
 #     model = CustomUser
@@ -26,7 +26,19 @@ from alumni.models import Career, Opportunities, Events
 #         )
 #     )
 # # Register your models here.
+# from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-admin.site.register(Events)
-admin.site.register(Opportunities)
+
+# class UserPendingCert(BaseUserAdmin):
+#     list_display = ['first_name', 'last_name',
+#                     'display_name', 'show_certificate']
+#     ordering = ('display_name',)
+
+
 admin.site.register(Career)
+admin.site.register(Events)
+admin.site.register(EventAttendees)
+admin.site.register(Opportunities)
+admin.site.register(Applications)
+
+# admin.site.register(UserProxy, UserPendingCert)

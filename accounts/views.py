@@ -52,6 +52,7 @@ def verify_otp(request):
 
             login(request, user)
             otp_obj.is_valid = False
+            otp_obj.save()
             del request.session['email']
             return redirect('profile')
 
