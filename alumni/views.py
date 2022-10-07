@@ -145,7 +145,15 @@ def opp_apply(request, pk):
 
 
 def generate_certificate(request):
-    img = cg(f"{request.user.first_name} {request.user.last_name}")
+    user = User.objects.get(pk=request.user.id)
+    data = {
+        "name": user.display_name,
+        "course": user.course_completed,
+        "from": user.course_complete_start,
+        "to": user.course_complete_end
+    }
+    print(data)
+    img = cg(data)
     response = HttpResponse(content_type="image/png")
     img.save(response, "PNG")
     return response

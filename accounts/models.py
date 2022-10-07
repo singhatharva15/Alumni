@@ -1,3 +1,4 @@
+from email.policy import default
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.utils import timezone
@@ -44,7 +45,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     display_name = models.CharField(max_length=254, null=True, blank=True)
     batch = models.CharField(max_length=254, null=True, blank=True)
     college = models.CharField(max_length=254, null=True, blank=True)
+
     course_completed = models.CharField(max_length=254, null=True, blank=True)
+    course_complete_start = models.DateField(blank=True, null=True)
+    course_complete_end = models.DateField(blank=True, null=True)
+
     mobile = models.CharField(max_length=10)
     career_opportunity = models.BooleanField(default=False)
     mentor_students = models.BooleanField(default=False)
