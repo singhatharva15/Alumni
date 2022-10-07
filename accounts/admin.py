@@ -57,7 +57,7 @@ class UserAdmin(ImportExportModelAdmin, BaseUserAdmin):
                                  'mobile', 'display_name', 'show_certificate']
             self.list_filter = []
             self.fieldsets = (
-                (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'display_name', 'college', 'batch', 'course_completed',
+                (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'display_name', 'college', 'batch', 'course_completed', 'course_complete_start', 'course_complete_end',
                                    'mobile', 'show_certificate', 'career_opportunity', 'mentor_students', 'train_students', 'attend_events', 'last_login')}),
             )
         else:
@@ -66,7 +66,7 @@ class UserAdmin(ImportExportModelAdmin, BaseUserAdmin):
             self.list_filter = ('is_staff', 'is_superuser',
                                 'is_active', 'groups')
             self.fieldsets = (
-                (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'display_name', 'college', 'batch', 'course_completed',
+                (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'display_name', 'college', 'batch', 'course_completed', 'course_complete_start', 'course_complete_end',
                                    'mobile', 'show_certificate', 'career_opportunity', 'mentor_students', 'train_students', 'attend_events', 'last_login')}),
                 ('Permissions', {'fields': (
                     'is_active',
